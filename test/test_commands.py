@@ -196,7 +196,7 @@ invocation.
         if sys.platform == 'win32':
             # it does not include carriage return characters on Windows
             output = output.replace('\n', '\r\n')
-        expected = get_expected_output('pull').decode()
+        expected = get_expected_output('pull_api').decode()
         assert output == expected
 
     def test_reimport(self):
