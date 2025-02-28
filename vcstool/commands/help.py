@@ -1,7 +1,8 @@
 import argparse
 import sys
 
-from pkg_resources import load_entry_point
+# from pkg_resources import load_entry_point
+from importlib.metadata import entry_points
 from vcstool.clients import vcstool_clients
 from vcstool.commands import vcstool_commands
 from vcstool.streams import set_streams
@@ -71,6 +72,15 @@ def get_parser(add_help=True):
         help='Show the vcstool version')
     return parser
 
+# NEW
+def load_vcs_command(commands):
+    entries = entry_points()
+    vcs_entry_point = next(
+        ep for ep in entries
+        if ep.group == 'console_scripts' and ep.name == 'vcs-' + commands[0]
+    )
+    return vcs_entry_point.load()
+
 
 def get_entrypoint(command):
     # accept command with same prefix if unique
@@ -86,9 +96,9 @@ def get_entrypoint(command):
                 file=sys.stderr)
         return None
 
-    return load_entry_point(
-        'vcstool', 'console_scripts', 'vcs-' + commands[0])
-
+    # return load_entry_point(
+    #     'vcstool', 'console_scripts', 'vcs-' + commands[0])
+    return load_vcs_command(commands)
 
 def get_parser_with_command_only():
     parser = argparse.ArgumentParser(
