@@ -332,6 +332,11 @@ invocation.
         output = run_command(
             'validate', ['--input', REPOS2_FILE])
         expected = get_expected_output('validate2')
+        print('AJB\n')
+        print(output)
+        print('AJB\n')
+        print(expected)
+        print('AJB\n')
         self.assertEqual(output, expected)
 
     def test_remote(self):
